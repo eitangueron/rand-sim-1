@@ -23,14 +23,17 @@ router.put('/todo/:todoID', function (req, res) {
     } else {
         todos.find(t => t.id == todoID).complete = false
     }
-    
+
     res.send(todos)
 })
 
 router.delete('/todo/:todoID', function (req, res) {
     const todoID = req.params.todoID
-    todos.splice(todos.indexOf(todoID)-1, 1)
-
+    for(item of todos){
+        if(item.id == todoID){
+        todos.splice(todos.indexOf(item), 1)
+    }
+    }
     res.send(todos)
 })
 

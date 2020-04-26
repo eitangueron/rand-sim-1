@@ -9,18 +9,41 @@ const render = function (todos) {
             <i class="fas fa-check-circle"></i>
             <span class=text>${todo.text}</span>
             <span class="delete"><i class="fas fa-trash"></i></span>
+             <div class="priority ${todo.id}">
+                <input type="radio" value="low" name="priority ${todo.id}" class="priority ${todo.id}">LOW</input>
+                <input type="radio" value="medieum" name="priority ${todo.id}" class="priority ${todo.id}">MED</input>
+                <input type="radio" value="high" name="priority ${todo.id}" class="priority ${todo.id}">HIGH</input>
+            </div>
         </div>
         `)
     })
+
+    const checkPriority = function(){
+        $("#todos").on('click','.priority',function(){
+            for(btn of $(this).find('input')){
+                if(btn.checked){
+                    let status = $(btn).val()
+                    let thisToDo = this.closest('.todo')
+                    if(status === 'low'){
+                        $(thisToDo).css('background-color','green')
+                    } else if (status === 'medieum'){
+                        $(thisToDo).css('background-color','orange')
+                    } else if (status === 'high'){
+                        $(thisToDo).css('background-color','red')
+                    }
+                }
+            }
+        })
+    }
+
+    checkPriority()
 }
 
-$.post()
 
 
 const add = function () {
     $.post('/todo', { text: $("#todo-input").val() }, function (todos) {
         render(todos)
-        console.log(todos)
         $("#todo-input").val("")
     })
 }
@@ -49,6 +72,13 @@ $("#todos").on("click", ".fa-trash", function () {
 
 $.get('/todos', todos => render(todos))
 
+
+
+
+
+
+
+
 class TODO {
 
     constructor(id, text, complete){
@@ -65,3 +95,4 @@ class TODO {
 
     }
 }
+
